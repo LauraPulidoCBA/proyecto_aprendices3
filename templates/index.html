@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Aprendices</title>
+    <link rel="stylesheet" href="/static/styles.css"/>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <span class="badge">SENA CBA</span>
+            <h1>Centro de Biotecnología Agropecuaria</h1>
+        </div>
+
+        <p class="subtitle">Entorno de desarrollo accedido desde {{request.remote_addr}} por CDMC</p>
+        
+        <div class="status-box {{ 'success' if 'exitosa' in db_status else 'error' }}">
+            <div class="status-icon">
+                {% if 'exitosa' in db_status %}
+                    ✓
+                {% else %}
+                    ✕
+                {% endif %}
+            </div>
+            <div class="status-info">
+                <span class="status-label">Estado de la Base de Datos:</span>
+                <span class="status-text">{{ db_status }}</span>
+            </div>
+        </div>
+
+        <form action="/registrar" method="POST" class="form-list">
+            <label>Nombre Completo</label>
+            <input type="text" name="nombre_completo" required>
+
+            <label>Número de Documento</label>
+            <input type="text" name="numero_documento" required>
+
+            <label>Número de Ficha</label>
+            <input type="text" name="ficha" required>
+
+            <button type="submit">Registrar</button>
+        </form>
+
+        <h2>Lista de Aprendices</h2>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th>Ficha</th>
+                <th>Fecha</th>
+            </tr>
+            {% for a in aprendices %}
+            <tr>
+                <td>{{ a[0] }}</td>
+                <td>{{ a[1] }}</td>
+                <td>{{ a[2] }}</td>
+                <td>{{ a[3] }}</td>
+                <td>{{ a[4] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="footer-info">
+            <p>Entorno en <code>mantenimiento</code></p>
+        </div>
+    </div>
+</body>
+</html>

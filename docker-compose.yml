@@ -1,0 +1,47 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: proxy_nginx_aprendices3
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app_backend
+    networks:
+      - red-cba
+
+  servidor-bd:
+    image: mysql:8.0
+    container_name: servidor-bd-aprendices3
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - red-cba
+
+  app_backend:
+    build: .
+    container_name: app-backend-aprendices3
+    volumes: 
+      - .:/home/myapp
+    environment:
+      FLASK_ENV: development
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - red-cba
+    depends_on:
+      - servidor-bd
+    ports:
+      - "5055:5055"
+
+networks:
+  red-cba:
+    name: red-cba-aprendices3
+
+volumes:
+  mysql-data:
+    name: mysql-data-aprendices3
