@@ -1,15 +1,27 @@
 services:
-  nginx:
-    image: nginx:alpine
-    container_name: proxy_nginx_aprendices3
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    # image: nginx:alpine
+    # container_name: proxy_nginx_aprendices3
+    container_name: proxy-manager
+    restart: always
     ports:
-      - "8080:80"
+      - "80:80" #Http
+      - "81:81" #Administracion de la Api
+      - "443:443" #HTTPS
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./npm_data:/data
+      - ./npm_letsencrypt:/etc/letsencrypt
+      
     depends_on:
       - app_backend
     networks:
       - red-cba
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:81 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   servidor-bd:
     image: mysql:8.0
@@ -21,6 +33,11 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - red-cba
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   app_backend:
     build: .
@@ -36,7 +53,12 @@ services:
     depends_on:
       - servidor-bd
     ports:
-      - "5055:5055"
+      - "5050:5050"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5050/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 networks:
   red-cba:
