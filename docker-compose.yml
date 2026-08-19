@@ -42,9 +42,10 @@ services:
       retries: 5
 
   app_backend:
-    build: .
+    image: laura2026cba/proyecto_aprendices3:latest
     container_name: app-backend-aprendices3
-    volumes: 
+
+    volumes:
       - .:/home/myapp
     environment:
       FLASK_ENV: development
