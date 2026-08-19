@@ -31,6 +31,6 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd ~/proyectos_py/proyecto_aprendices3
-            docker compose pull app-backend
+            cd ~/proyecto_aprendices3
+            docker compose pull app_backend
             docker compose up -d
