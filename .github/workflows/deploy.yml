@@ -23,3 +23,14 @@ jobs:
           context: .
           push: true
           tags: laura2026cba/proyecto_aprendices3:latest
+
+        name: Desplegar en servidor cloud
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd ~/proyectos_py/proyecto_aprendices3
+            docker compose pull app-backend
+            docker compose up -d 
