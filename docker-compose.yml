@@ -45,8 +45,8 @@ services:
     image: laura2026cba/proyecto_aprendices3:latest
     container_name: app-backend-aprendices3
 
-    volumes:
-      - .:/home/myapp
+    # volumes:
+    #   - .:/home/myapp
     environment:
       FLASK_ENV: development
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
