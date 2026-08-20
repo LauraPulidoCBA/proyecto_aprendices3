@@ -5,10 +5,10 @@ sample = Flask(__name__)
 
 def get_connection():
     return pymysql.connect(
-        host="servidor-bd-aprendices3",
-        user="root",
-        password="sena123",
-        database="aprendices3_bd"
+        host=os.getenv("MYSQL_HOST"),
+        user=os.getenv("MYSQL_USER"),
+        password=os.getenv("MYSQL_PASSWORD"),
+        database=os.getenv("MYSQL_DATABASE")
     )
 
 @sample.route("/", methods=["GET"])
