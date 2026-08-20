@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import pymysql
+import os
 
 sample = Flask(__name__)
 
