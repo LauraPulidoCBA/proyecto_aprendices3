@@ -29,8 +29,8 @@ services:
     image: mysql:8.0
     container_name: servidor-bd-aprendices3
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: sena123
+      MYSQL_DATABASE: aprendices3
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
@@ -49,8 +49,11 @@ services:
     #   - .:/home/myapp
     environment:
       FLASK_ENV: development
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: flaskuser
+      MYSQL_PASSWORD: flaskpass123
+      MYSQL_DATABASE: aprendices3
+      MYSQL_HOST: servidor-bd-aprendices3
+
     networks:
       - red-cba
     depends_on:
