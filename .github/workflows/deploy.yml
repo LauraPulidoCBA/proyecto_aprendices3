@@ -32,5 +32,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd ~/proyecto_aprendices3
-            docker compose pull app_backend
-            docker compose up -d
+            docker stop app-backend-aprendices3 || true
+            docker rm app-backend-aprendices3 || true
+            docker pull laura2026cba/proyecto_aprendices3:latest
+            docker compose up -d --no-build --force-recreate app_backend
