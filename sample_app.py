@@ -24,7 +24,7 @@ def home():
         aprendices = []
         db_status = f"Error en la conexión: {e}"
 
-    return render_template("index.html", aprendices=aprendices, db_status=db_status)
+    return render_template("index.html", aprendices=aprendices, db_status=db_status, ci_cd_text="Prueba para CI/CD")
 
 @sample.route("/registrar", methods=["POST"])
 def registrar():
