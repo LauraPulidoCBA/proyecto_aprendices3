@@ -3,7 +3,7 @@ import pymysql
 import os
 
 # Clave quemada intencional
-MYSQL_PASSWORD = "super_secret_123"
+# MYSQL_PASSWORD = "super_secret_123"
 
 sample = Flask(__name__)
 
@@ -19,7 +19,7 @@ def get_connection():
 def home():
 
     # Fallo intencional para Pytest
-    return "Error interno", 500
+    # return "Error interno", 500
     
     try:
         conn = get_connection()
@@ -51,7 +51,7 @@ def registrar():
     return redirect("/")
 
 if __name__ == '__main__':
-    # sample.run(host="0.0.0.0", port=5050) # nosec
+    sample.run(host="0.0.0.0", port=5050) # nosec
 
     # Fallo de SAST (Bandit):
-    sample.run(host="0.0.0.0", port=5050, debug=True)
+    # sample.run(host="0.0.0.0", port=5050, debug=True)
