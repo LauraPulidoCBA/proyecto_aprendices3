@@ -21,25 +21,26 @@ services:
       - red-cba
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:81 || exit 1"]
-      interval: 30s
-      timeout: 10s
+      interval: 10s
+      timeout: 5s
       retries: 3
 
   servidor-bd:
     image: mysql:8.0
     container_name: servidor-bd-aprendices3
     environment:
-      MYSQL_ROOT_PASSWORD: sena123
-      MYSQL_DATABASE: aprendices3
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
       - red-cba
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   app_backend:
     image: laura2026cba/proyecto_aprendices3:latest
@@ -49,21 +50,27 @@ services:
     #   - .:/home/myapp
     environment:
       FLASK_ENV: development
-      MYSQL_USER: flaskuser
-      MYSQL_PASSWORD: flaskpass123
-      MYSQL_DATABASE: aprendices3
-      MYSQL_HOST: servidor-bd-aprendices3
+      #MYSQL_USER: flaskuser
+      MYSQL_USER: ${MYSQL_USER}
+      # MYSQL_PASSWORD: flaskpass123
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      # MYSQL_DATABASE: aprendices3
+      # MYSQL_HOST: servidor-bd-aprendices3
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
 
     networks:
       - red-cba
     depends_on:
-      - servidor-bd
+      servidor-bd:
+        condition: service_healthy
     ports:
       - "5050:5050"
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:5050/ || exit 1"]
-      interval: 30s
-      timeout: 10s
+      interval: 10s
+      timeout: 5s
       retries: 3
 
   uptime-kuma:
@@ -74,6 +81,17 @@ services:
       - "3001:3001"
     volumes:
       - uptime-kuma-data:/app/data
+    networks:
+      - red-cba
+
+  dozzle:
+    image: amir/dozzle:latest
+    container_name: dozzle
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
     networks:
       - red-cba
 

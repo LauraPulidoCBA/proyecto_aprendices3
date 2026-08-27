@@ -1,2 +1,4 @@
 def test_ejemplo_basico():
-    assert 1 + 1 == 2
+    resultado = 1 + 1
+    if resultado != 2:
+        raise AssertionError("El resultado no es correcto")
