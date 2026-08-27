@@ -1,9 +1,8 @@
-FROM python:3.12-slim
+FROM python:3.12-alpine
 
 WORKDIR /home/myapp
 
 COPY requirements.txt .
-
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
