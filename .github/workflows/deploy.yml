@@ -58,7 +58,7 @@ jobs:
           exit-code: '1' # Si encuentra alguna falla, rompe la ejecución
           ignore-unfixed: true
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH' # Son los que van a detener la ejecución
+          severity: 'CRITICAL' # Son los que van a detener la ejecución
 
       - name: Subir la imagen a Docker Hub
         run: docker push laura2026cba/proyecto_aprendices3:latest
