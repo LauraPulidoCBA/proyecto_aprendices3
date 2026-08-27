@@ -1,4 +1,8 @@
-FROM python:3.12-alpine
+# Fallo de Imagen (Trivy):
+    
+# FROM python:3.12-alpine
+FROM python:3.8-slim-buster
+
 
 WORKDIR /home/myapp
 
